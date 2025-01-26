@@ -18,6 +18,18 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     final task = ref.watch(tasksProvider);
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(
+              prefrence.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+            ),
+            onPressed: () {
+              ref.read(preferenceProvider.notifier).toggleTheme(
+                    !prefrence.isDarkMode,
+                  );
+            },
+          ),
+        ],
         title: const Text('Task Management'),
       ),
       floatingActionButton: FloatingActionButton(

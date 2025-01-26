@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taskmanagement/models/preference.dart';
 import 'package:taskmanagement/services/pref_database_service.dart';
@@ -18,15 +16,18 @@ class PreferenceNotifier extends StateNotifier<Preference> {
     loadPreference();
   }
 
-  loadPreference() async {
-    state = await _prefDatabaseService.getPreference();
+  Future<void> loadPreference() async {
+    state = (await _prefDatabaseService.getPreference());
   }
 
-  void updateTheme(bool isDarkMode) async {
+  void toggleTheme(bool isDarkMode) async {
+    state =
+        Preference(isDarkMode: !state.isDarkMode, sortOption: state.sortOption);
     await _prefDatabaseService.updateTheme(isDarkMode);
   }
 
   void updateTaskOrder(sortOptions option) async {
+    state.sortOption = option;
     await _prefDatabaseService.updateSortOption(option);
   }
 }

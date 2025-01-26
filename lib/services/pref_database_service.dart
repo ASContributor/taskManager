@@ -3,18 +3,21 @@ import 'package:path_provider/path_provider.dart';
 import 'package:taskmanagement/models/preference.dart';
 
 class PrefDatabaseService {
-  late Box preferencesBox;
+  late Box<Preference> preferencesBox;
   static const String _preferencesKey = 'preference';
+  static const String _preferencesBox = 'preferencesBox';
   Future initHive() async {
     await Hive.initFlutter();
+    Hive.registerAdapter(sortOptionsAdapter());
     Hive.registerAdapter(PreferenceAdapter());
     var dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
-    preferencesBox = await Hive.openBox<Preference>('preferencesBox');
+    await Hive.openBox<Preference>(_preferencesBox);
   }
 
-  Future getPreference() async {
-    return preferencesBox.get(_preferencesKey);
+  Future<Preference> getPreference() async {
+    preferencesBox = await Hive.openBox<Preference>(_preferencesBox);
+    return preferencesBox.get(_preferencesKey) ?? Preference();
   }
 
   Future updateTheme(bool isDartMode) async {
