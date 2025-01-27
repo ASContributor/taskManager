@@ -21,14 +21,16 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   Widget build(BuildContext context) {
     final prefrence = ref.watch(preferenceProvider);
     final task = ref.watch(tasksProvider);
+    final taskNotifier = ref.read(tasksProvider.notifier);
+    final prefNotifier = ref.read(preferenceProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         actions: [
           PopupMenuButton<sortOptions>(
             icon: const Icon(Icons.sort),
             onSelected: (sortOptions value) {
-              ref.read(preferenceProvider.notifier).updateTaskOrder(value);
-              ref.read(tasksProvider.notifier).sortTask(value);
+              prefNotifier.updateTaskOrder(value);
+              taskNotifier.sortTask(value);
             },
             itemBuilder: (context) {
               return [
@@ -54,7 +56,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           IconButton(
             icon: const Icon(Icons.delete_sweep),
             onPressed: () {
-              ref.read(tasksProvider.notifier).deleteAll();
+              taskNotifier.deleteAll();
             },
           ),
           IconButton(
@@ -62,9 +64,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
               prefrence.isDarkMode ? Icons.dark_mode : Icons.light_mode,
             ),
             onPressed: () {
-              ref.read(preferenceProvider.notifier).toggleTheme(
-                    !prefrence.isDarkMode,
-                  );
+              prefNotifier.toggleTheme(
+                !prefrence.isDarkMode,
+              );
             },
           ),
         ],
