@@ -19,13 +19,37 @@ class MyApp extends ConsumerWidget {
     final mode = ref.watch(preferenceProvider);
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-          brightness: mode.isDarkMode ? Brightness.dark : Brightness.light,
+      theme: ThemeData.light().copyWith(
+        colorScheme: ColorScheme.light(
+          primary: Colors.purple[300]!,
+          secondary: Colors.purple[300]!,
+          surface: Colors.white,
         ),
-        useMaterial3: true,
       ),
+      darkTheme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.dark(
+          primary: Colors.purple[300]!,
+          secondary: Colors.purple[300]!,
+          surface: const Color(0xFF1E1E1E),
+          onSurface: Colors.white,
+        ),
+        scaffoldBackgroundColor: const Color(0xFF121212),
+        drawerTheme: const DrawerThemeData(
+          backgroundColor: Color(0xFF1E1E1E),
+          scrimColor: Colors.transparent,
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF1E1E1E),
+          elevation: 0,
+          foregroundColor: Colors.white,
+        ),
+        cardColor: const Color(0xFF2C2C2C),
+        dialogBackgroundColor: const Color(0xFF1E1E1E),
+        brightness: Brightness.dark,
+        applyElevationOverlayColor: true,
+      ),
+      themeMode: mode.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       initialRoute: '/',
       onGenerateRoute: Routes().onGenerateRoute,

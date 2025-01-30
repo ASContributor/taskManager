@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taskmanagement/views/task_screen.dart';
+import 'package:taskmanagement/views/dashbard/task_screen.dart';
 
 class Routes {
   Route onGenerateRoute(RouteSettings settings) {
